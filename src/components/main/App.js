@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchAPI } from "../../actions/requestActions";
+import { fetchAPI } from "../../actions/stockTrackerActions";
 import { Navbar, Nav } from "react-bootstrap";
 import "./App.css";
+import TrackNewCompany from "../trackNewCompany/TrackNewCompany";
 
 class App extends Component {
   constructor(props) {
@@ -12,6 +13,8 @@ class App extends Component {
   }
 
   render() {
+    console.log("->", this.props.companies);
+
     return (
       <div className="App">
         <Navbar bg="light" expand="lg">
@@ -24,17 +27,21 @@ class App extends Component {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-        <h2>Companies</h2>
+        {/* <h3>Companies</h3>
         <p>
           There are no companies yet.
           <a href="#new"> Track your first company.</a>
-        </p>
+        </p> */}
+        <TrackNewCompany />
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  // companies: state.responses.companies
+  companies: state.responses.companies
+});
 
 const mapDispatchToProps = dispatch => ({});
 
