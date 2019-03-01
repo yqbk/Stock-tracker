@@ -1,0 +1,32 @@
+.company-container {
+    display: flex;
+    height: 64px;
+    margin-bottom: 20px;
+}
+
+.company-image {
+    max-height: 64px;
+    max-width: 64px;
+    object-fit: contain;
+
+    background-color: #f2f2f2;
+    margin-right: 10px;
+}
+
+.company-info {
+
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.company-info-row {
+    flex-direction: row;
+    max-height: 21px;
+}
+
+.company-name {
+    font-weight: 700;
+    font-style: normal;
+    font-size: 18px;
+}

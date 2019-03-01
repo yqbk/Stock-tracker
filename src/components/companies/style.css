@@ -1,0 +1,8 @@
+.track-form {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.track-button {
+    margin-top: 25px;
+}

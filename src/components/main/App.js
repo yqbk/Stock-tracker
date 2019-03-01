@@ -4,6 +4,7 @@ import { fetchAPI } from "../../actions/stockTrackerActions";
 import { Navbar, Nav } from "react-bootstrap";
 import "./App.css";
 import TrackNewCompany from "../trackNewCompany/TrackNewCompany";
+import Companies from "../companies/Companies";
 
 class App extends Component {
   constructor(props) {
@@ -33,6 +34,7 @@ class App extends Component {
           <a href="#new"> Track your first company.</a>
         </p> */}
         <TrackNewCompany />
+        <Companies companies={this.props.companies} />
       </div>
     );
   }
