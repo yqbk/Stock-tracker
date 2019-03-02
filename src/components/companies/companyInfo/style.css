@@ -30,3 +30,20 @@
     font-style: normal;
     font-size: 18px;
 }
+
+span {
+    font-size: 14px;
+
+}
+
+.bolded {
+    font-weight: 700
+}
+
+.change-red {
+    color: red;
+}
+
+.change-green {
+    color: green;
+}

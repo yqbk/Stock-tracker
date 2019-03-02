@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchAPI } from "../../actions/stockTrackerActions";
+import { fetchAPI } from "../../actions/getCompanyActions";
 import { Navbar, Nav } from "react-bootstrap";
 import "./App.css";
 import TrackNewCompany from "../trackNewCompany/TrackNewCompany";
@@ -39,7 +39,7 @@ class App extends Component {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-        
+
         {this.state.trackNewCompanyIsActive ? (
           <TrackNewCompany
             changeTab={() => this.switchToTackNewCompany(false)}
@@ -53,7 +53,6 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  // companies: state.responses.companies
   companies: state.responses.companies
 });
 

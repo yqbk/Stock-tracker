@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchAPI } from "../../actions/stockTrackerActions";
+import { fetchAPI } from "../../actions/getCompanyActions";
+import { fetchAlphavantage } from "../../actions/getCompanyInfoActions";
 
 import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
 import "./style.css";
@@ -25,7 +26,8 @@ class TrackNewCompany extends Component {
   onFormSubmit = event => {
     event.preventDefault();
 
-    this.props.fetchAPI(this.state.company);
+    // this.props.fetchAPI(this.state.company);
+    this.props.fetchAlphavantage(this.state.company);
     this.setState({ company: "" });
     this.props.changeTab();
   };
@@ -61,7 +63,8 @@ class TrackNewCompany extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchAPI: company => dispatch(fetchAPI(company))
+  fetchAPI: company => dispatch(fetchAPI(company)),
+  fetchAlphavantage: company => dispatch(fetchAlphavantage(company))
 });
 
 export default connect(

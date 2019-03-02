@@ -1,38 +1,31 @@
+import handleErrors from "../helpers/apiErrorHandler";
+
 export function fetchAPI(company) {
   return dispatch => {
     // we replace any address with path to file
     const URL =
       "https://autocomplete.clearbit.com/v1/companies/suggest?query=" + company;
 
-    dispatch(getAPIRequest(URL));
+    dispatch(getCompany(URL));
 
-    // Mock real address and get data from static files provided for the task
     return fetch(URL)
       .then(handleErrors)
       .then(response => response.json())
-      .then(data => dispatch(getAPIRequestSuccess(data)))
-      .catch(error => dispatch(getAPIRequestFailure(error)));
+      .then(data => dispatch(getCompanySuccess(data)))
+      .catch(error => dispatch(getCompanyFailure(error)));
   };
-}
-
-// Handle HTTP errors
-function handleErrors(response) {
-  if (!response.ok) {
-    throw Error(response.statusText);
-  }
-  return response;
 }
 
 export const GET_COMPANY = "GET_COMPANY";
 export const GET_COMPANY_SUCCESS = "GET_COMPANY_SUCCESS";
 export const GET_COMPANY_FAILURE = "GET_COMPANY_FAILURE";
 
-export const getAPIRequest = searchValue => ({
+export const getCompany = searchValue => ({
   type: "GET_COMPANY",
   payload: { searchValue }
 });
 
-export const getAPIRequestSuccess = response => {
+export const getCompanySuccess = response => {
   console.log(response);
   const bestMatch = response[0];
   return {
@@ -41,7 +34,7 @@ export const getAPIRequestSuccess = response => {
   };
 };
 
-export const getAPIRequestFailure = error => ({
+export const getCompanyFailure = error => ({
   type: "GET_COMPANY_FAILURE",
   payload: { error }
 });
