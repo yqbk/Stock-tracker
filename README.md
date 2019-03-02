@@ -1,5 +1,11 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Info
+I decided not to use any external router lib and just use component state to switch between "modes".
+
+
+
+
 ## Available Scripts
 
 In the project directory, you can run:

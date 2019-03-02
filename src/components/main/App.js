@@ -10,11 +10,18 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      trackNewCompanyIsActive: false
+    };
   }
+
+  switchToTackNewCompany = isActive => {
+    this.setState({ trackNewCompanyIsActive: isActive });
+  };
 
   render() {
     console.log("->", this.props.companies);
+    console.log("   ->", this.state.trackNewCompanyIsActive);
 
     return (
       <div className="App">
@@ -23,18 +30,23 @@ class App extends Component {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link href="#new">Track new company</Nav.Link>
-              <Nav.Link href="#companies">Companies</Nav.Link>
+              <Nav.Link onClick={() => this.switchToTackNewCompany(true)}>
+                Track new company
+              </Nav.Link>
+              <Nav.Link onClick={() => this.switchToTackNewCompany(false)}>
+                Companies
+              </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-        {/* <h3>Companies</h3>
-        <p>
-          There are no companies yet.
-          <a href="#new"> Track your first company.</a>
-        </p> */}
-        <TrackNewCompany />
-        <Companies companies={this.props.companies} />
+        
+        {this.state.trackNewCompanyIsActive ? (
+          <TrackNewCompany
+            changeTab={() => this.switchToTackNewCompany(false)}
+          />
+        ) : (
+          <Companies companies={this.props.companies} />
+        )}
       </div>
     );
   }

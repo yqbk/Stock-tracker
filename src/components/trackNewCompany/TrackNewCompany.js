@@ -14,9 +14,9 @@ class TrackNewCompany extends Component {
     };
   }
 
-//   componentDidMount() {
-//     this.props.fetchAPI("warsaw");
-//   }
+  //   componentDidMount() {
+  //     this.props.fetchAPI("warsaw");
+  //   }
 
   onInputChange = event => {
     this.setState({ company: event.target.value });
@@ -27,6 +27,7 @@ class TrackNewCompany extends Component {
 
     this.props.fetchAPI(this.state.company);
     this.setState({ company: "" });
+    this.props.changeTab();
   };
 
   render() {
