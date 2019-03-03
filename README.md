@@ -5,6 +5,7 @@
 - I merged 3 API calls to create an element that displays all necessary information about a given company.
 - I decided not to use any external router lib and just use component state to switch between "modes" and keep it as simple SPA.
 - In the future code should be covered by some tests.
+- Some input validation and better error handling need to be done.
 
 ---
 
@@ -33,4 +34,3 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
-
