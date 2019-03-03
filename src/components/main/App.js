@@ -40,6 +40,11 @@ class App extends Component {
           <TrackNewCompany
             changeTab={() => this.switchToTackNewCompany(false)}
           />
+        ) : this.props.loading ? (
+          <div className="loader">
+            <i className="fas fa-spinner fa-spin fa-5x fa-fw" />
+            <span className={"loading-text"}>Loading...</span>
+          </div>
         ) : (
           <Companies
             companies={this.props.companies}
@@ -52,7 +57,8 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  companies: state.companyInfo.companies
+  companies: state.companyInfo.companies,
+  loading: state.companyInfo.loading
 });
 
 export default connect(

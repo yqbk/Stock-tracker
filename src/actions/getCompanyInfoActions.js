@@ -16,9 +16,17 @@ export function fetchCompanyInfo(company) {
     return fetchAPI(SYMBOL_SEARCH_API)
       .then(data => {
         const bestMatch = data.bestMatches[0];
+
+        if (!bestMatch) {
+          throw new Error("No company with such name.");
+        }
+
         // Get extended information using Quote API
         return fetchAPI(QUOTE_API(bestMatch["1. symbol"])).then(
           dataExtended => {
+            if (Object.keys(dataExtended).includes("Note")) {
+              throw new Error("API request limit, you need to wait 1 min.");
+            }
             // Get image and url using Autocomplete API
             return fetchAPI(AUTOCOMPLETE_API).then(autocompleteData => {
               return dispatch(
@@ -39,7 +47,10 @@ export function fetchCompanyInfo(company) {
           }
         );
       })
-      .catch(error => dispatch(getCompanyInfoFailure(error)));
+      .catch(error => {
+        alert(error);
+        return dispatch(getCompanyInfoFailure(error));
+      });
   };
 }
 
