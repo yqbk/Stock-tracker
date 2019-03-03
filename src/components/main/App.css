@@ -3,6 +3,17 @@
   margin-right: 100px;
 }
 
+.app-content {
+  padding: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+  .App {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
 .loader {
   margin: auto;
   position: absolute;

@@ -36,21 +36,23 @@ class App extends Component {
           </Navbar.Collapse>
         </Navbar>
 
-        {this.state.trackNewCompanyIsActive ? (
-          <TrackNewCompany
-            changeTab={() => this.switchToTackNewCompany(false)}
-          />
-        ) : this.props.loading ? (
-          <div className="loader">
-            <i className="fas fa-spinner fa-spin fa-5x fa-fw" />
-            <span className={"loading-text"}>Loading...</span>
-          </div>
-        ) : (
-          <Companies
-            companies={this.props.companies}
-            onClick={this.switchToTackNewCompany}
-          />
-        )}
+        <div className="app-content">
+          {this.state.trackNewCompanyIsActive ? (
+            <TrackNewCompany
+              changeTab={() => this.switchToTackNewCompany(false)}
+            />
+          ) : this.props.loading ? (
+            <div className="loader">
+              <i className="fas fa-spinner fa-spin fa-5x fa-fw" />
+              <span className={"loading-text"}>Loading...</span>
+            </div>
+          ) : (
+            <Companies
+              companies={this.props.companies}
+              onClick={this.switchToTackNewCompany}
+            />
+          )}
+        </div>
       </div>
     );
   }
