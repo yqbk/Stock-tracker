@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-import responses from "./responsesReducer";
+import companyInfo from "./companyInfoReducer";
 
 export default combineReducers({
-  responses
+  companyInfo
 });

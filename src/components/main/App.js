@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchAPI } from "../../actions/getCompanyActions";
 import { Navbar, Nav } from "react-bootstrap";
-import "./App.css";
 import TrackNewCompany from "../trackNewCompany/TrackNewCompany";
 import Companies from "../companies/Companies";
+import "./App.css";
 
 class App extends Component {
   constructor(props) {
@@ -15,14 +14,11 @@ class App extends Component {
     };
   }
 
-  switchToTackNewCompany = isActive => {
+  switchToTackNewCompany = (isActive = true) => {
     this.setState({ trackNewCompanyIsActive: isActive });
   };
 
   render() {
-    console.log("->", this.props.companies);
-    console.log("   ->", this.state.trackNewCompanyIsActive);
-
     return (
       <div className="App">
         <Navbar bg="light" expand="lg">
@@ -30,7 +26,7 @@ class App extends Component {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link onClick={() => this.switchToTackNewCompany(true)}>
+              <Nav.Link onClick={this.switchToTackNewCompany}>
                 Track new company
               </Nav.Link>
               <Nav.Link onClick={() => this.switchToTackNewCompany(false)}>
@@ -45,7 +41,10 @@ class App extends Component {
             changeTab={() => this.switchToTackNewCompany(false)}
           />
         ) : (
-          <Companies companies={this.props.companies} />
+          <Companies
+            companies={this.props.companies}
+            onClick={this.switchToTackNewCompany}
+          />
         )}
       </div>
     );
@@ -53,12 +52,10 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  companies: state.responses.companies
+  companies: state.companyInfo.companies
 });
-
-const mapDispatchToProps = dispatch => ({});
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(App);

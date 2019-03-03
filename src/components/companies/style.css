@@ -6,3 +6,13 @@
 .track-button {
     margin-top: 25px;
 }
+
+.link {
+    color: #0099FF;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.link:hover {
+    color: black;
+}

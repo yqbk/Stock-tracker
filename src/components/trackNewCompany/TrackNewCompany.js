@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchAPI } from "../../actions/getCompanyActions";
-import { fetchAlphavantage } from "../../actions/getCompanyInfoActions";
+import { fetchCompanyInfo } from "../../actions/getCompanyInfoActions";
 
-import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
+import { Form, FormControl, Button } from "react-bootstrap";
 import "./style.css";
 
 class TrackNewCompany extends Component {
@@ -15,10 +14,6 @@ class TrackNewCompany extends Component {
     };
   }
 
-  //   componentDidMount() {
-  //     this.props.fetchAPI("warsaw");
-  //   }
-
   onInputChange = event => {
     this.setState({ company: event.target.value });
   };
@@ -26,8 +21,7 @@ class TrackNewCompany extends Component {
   onFormSubmit = event => {
     event.preventDefault();
 
-    // this.props.fetchAPI(this.state.company);
-    this.props.fetchAlphavantage(this.state.company);
+    this.props.fetchCompanyInfo(this.state.company);
     this.setState({ company: "" });
     this.props.changeTab();
   };
@@ -48,12 +42,7 @@ class TrackNewCompany extends Component {
           <span>
             Provide the stock exchange symbol of a company you want to track
           </span>
-          <Button
-            // variant="outline-success"
-            type="submit"
-            className={"track-button"}
-            // class="btn btn-primary"
-          >
+          <Button type="submit" className={"track-button"}>
             Track
           </Button>
         </Form>
@@ -63,8 +52,7 @@ class TrackNewCompany extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchAPI: company => dispatch(fetchAPI(company)),
-  fetchAlphavantage: company => dispatch(fetchAlphavantage(company))
+  fetchCompanyInfo: company => dispatch(fetchCompanyInfo(company))
 });
 
 export default connect(

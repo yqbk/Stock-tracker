@@ -1,48 +1,43 @@
-import handleErrors from "../helpers/apiErrorHandler";
+import { fetchAPI } from "../helpers/fetchAPI";
 
 // Sunscrapers encoded in Base64
 const API_KEY = "U3Vuc2NyYXBlcnM=";
 
-export function fetchAlphavantage(company) {
+export function fetchCompanyInfo(company) {
   return dispatch => {
-    // we replace any address with path to file
-    const URL = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${company}&apikey=${API_KEY}`;
-    const URL2 = symbol =>
+    const SYMBOL_SEARCH_API = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${company}&apikey=${API_KEY}`;
+    const QUOTE_API = symbol =>
       `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${API_KEY}`;
-    const URL3 = `https://autocomplete.clearbit.com/v1/companies/suggest?query=${company}`;
+    const AUTOCOMPLETE_API = `https://autocomplete.clearbit.com/v1/companies/suggest?query=${company}`;
 
-    dispatch(getCompanyInfo(URL));
+    dispatch(getCompanyInfo(company));
 
-    // Get basic information using QUERY endpoint
-    return fetch(URL)
-      .then(handleErrors)
-      .then(response => response.json())
+    // Get basic information using SEARCH API
+    return fetchAPI(SYMBOL_SEARCH_API)
       .then(data => {
-        // Get extended information using Quote endpoint
-        return fetch(URL2(data.bestMatches[0]["1. symbol"]))
-          .then(handleErrors)
-          .then(response => response.json())
-          .then(dataExtended => {
-            return fetch(URL3)
-              .then(handleErrors)
-              .then(response => response.json())
-              .then(dataExtendedImage => {
-                console.log("?? ", dataExtendedImage);
-                return dispatch(
-                  getCompanyInfoSuccess({
-                    ...data.bestMatches[0],
-                    ...dataExtended["Global Quote"],
-                    ...dataExtendedImage.filter( match => {
-                      
-
-                      console.log('test', match.name, data.bestMatches[0]["2. name"].split(' ')[0], match.name === data.bestMatches[0]["2. name"].split(' ')[0])
-                      return match.name.toUpperCase() === data.bestMatches[0]["2. name"].split(' ')[0].toUpperCase() 
-                    })[0]
-                      
-                  })
-                );
-              });
-          });
+        const bestMatch = data.bestMatches[0];
+        // Get extended information using Quote API
+        return fetchAPI(QUOTE_API(bestMatch["1. symbol"])).then(
+          dataExtended => {
+            // Get image and url using Autocomplete API
+            return fetchAPI(AUTOCOMPLETE_API).then(autocompleteData => {
+              return dispatch(
+                getCompanyInfoSuccess({
+                  ...bestMatch,
+                  ...dataExtended["Global Quote"],
+                  // Try to mach company name in autocomplete response to get company logo and url
+                  ...autocompleteData.filter(autocompleteMatch => {
+                    return (
+                      // Check if first uppercase name in both responses are matching
+                      autocompleteMatch.name.toUpperCase() ===
+                      bestMatch["2. name"].split(" ")[0].toUpperCase()
+                    );
+                  })[0]
+                })
+              );
+            });
+          }
+        );
       })
       .catch(error => dispatch(getCompanyInfoFailure(error)));
   };
@@ -57,14 +52,10 @@ export const getCompanyInfo = searchValue => ({
   payload: { searchValue }
 });
 
-export const getCompanyInfoSuccess = response => {
-  // console.log(response);
-  // const bestMatch = response.bestMatches[0];
-  return {
-    type: "GET_COMPANY_INFO_SUCCESS",
-    payload: response
-  };
-};
+export const getCompanyInfoSuccess = response => ({
+  type: "GET_COMPANY_INFO_SUCCESS",
+  payload: response
+});
 
 export const getCompanyInfoFailure = error => ({
   type: "GET_COMPANY_INFO_FAILURE",
